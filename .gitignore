@@ -1,0 +1,7 @@
+media/
+.idea/
+static/
+venv/
+config.py
+db.sqlite3
+local_settings.py
