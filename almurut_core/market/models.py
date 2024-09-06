@@ -1,5 +1,6 @@
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator
 from django.db import models
+from users.models import CustomUser
 
 
 class ProductCategory(models.Model):
@@ -47,3 +48,11 @@ class ProductGallery(models.Model):
     class Meta:
         verbose_name = 'Галерея товара'
         verbose_name_plural = 'Галереи товаров'
+
+
+class ProductRating(models.Model):
+    """Моделька для рейтинга продуктов"""
+
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, null=True)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
+    rating = models.PositiveSmallIntegerField(validators=[MaxValueValidator(5), MaxValueValidator(1)])
