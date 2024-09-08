@@ -15,7 +15,7 @@ class CustomUser(AbstractUser):
         unique=True,
         db_index=True
     )
-    avatar = models.IntegerField(null=True)
+    avatar = models.ImageField(null=True)
     birth_day = models.DateField(
         null=True,
         blank=True)

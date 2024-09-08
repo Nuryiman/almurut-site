@@ -15,4 +15,3 @@ class CustomUserManager(BaseUserManager):
         extra_fields['is_superuser'] = True
         extra_fields['is_active'] = True
         return self.create_user(email, password, **extra_fields)
-
