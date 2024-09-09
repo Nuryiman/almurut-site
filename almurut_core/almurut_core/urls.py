@@ -18,12 +18,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
+from market.views import HomeView, FavoritesView
+from users.views import LoginView, UserRegistrationView, MakeUserRegistrationView
 
-from market.views import HomeView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', HomeView.as_view())
+    path('home/', HomeView.as_view()),
+    path('favorites/', FavoritesView.as_view()),
+    path('login/', LoginView.as_view(), name='login-view'),
+    path('registration/', UserRegistrationView.as_view(), name='registration-url'),
+    path('make-registration/', MakeUserRegistrationView.as_view(), name='make-registration-url')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
