@@ -1,3 +1,4 @@
+from django.contrib.auth import login
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
@@ -12,8 +13,8 @@ class MakeUserRegistrationView(View):
     def post(self, request, *args, **kwargs):
         data = request.POST
 
-        password1 = data["passsword1"]
-        password2 = data["passsword2"]
+        password1 = data["password1"]
+        password2 = data["password2"]
 
         if password1 == password2:
             first_name = data["first_name"]
@@ -23,6 +24,7 @@ class MakeUserRegistrationView(View):
                 email=email, password=password1,
                 first_name=first_name, last_name=last_name
             )
+            login(request, user)
             return render(request, "index.html")
         else:
             pass
