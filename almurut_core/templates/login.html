@@ -150,6 +150,11 @@
                                             <li><a href="">Shop</a></li>
                                             <li><a href="">FAQ</a></li>
                                             <li><a href="">My account</a></li>
+                                            <li>
+                                                <form action=" " method="POST">
+                                                    <button type="">Выйти</button>
+                                                </form>
+                                            </li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -187,37 +192,41 @@
             <div class="page-section mb-60">
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30">
-                            <!-- Login Form s-->
-                            <form action="{% url 'login-view' %}" method="POST">
-                                {% csrf_token %}
-                                <div class="login-form">
-                                    <h4 class="login-title">Login</h4>
-                                    <div class="row">
-                                        <div class="col-md-12 col-12 mb-20">
-                                            <label>Email Address*</label>
-                                            <input class="mb-0" type="email" name="email" placeholder="Email Address">
-                                        </div>
-                                        <div class="col-12 mb-20">
-                                            <label>Password</label>
-                                            <input class="mb-0" type="password" name="password" placeholder="Password">
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="check-box d-inline-block ml-0 ml-md-2 mt-10">
-                                                <input type="checkbox" id="remember_me">
-                                                <label for="remember_me">Remember me</label>
+                        {% if logged_in == True %}
+                            <h1>Вы успешно залогинились</h1>
+                        {% else %}
+                            <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30">
+                                <!-- Login Form s-->
+                                <form action="{% url 'make-login-url' %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="login-form">
+                                        <h4 class="login-title">Login</h4>
+                                        <div class="row">
+                                            <div class="col-md-12 col-12 mb-20">
+                                                <label>Email Address*</label>
+                                                <input class="mb-0" type="email" name="email" placeholder="Email Address">
+                                            </div>
+                                            <div class="col-12 mb-20">
+                                                <label>Password</label>
+                                                <input class="mb-0" type="password" name="password" placeholder="Password">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="check-box d-inline-block ml-0 ml-md-2 mt-10">
+                                                    <input type="checkbox" id="remember_me">
+                                                    <label for="remember_me">Remember me</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
+                                                <a href="#"> Forgotten pasward?</a>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <button class="register-button mt-0">Login</button>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
-                                            <a href="#"> Forgotten pasward?</a>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <button class="register-button mt-0">Login</button>
-                                        </div>
                                     </div>
-                                </div>
-                            </form>
-                        </div>
+                                </form>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

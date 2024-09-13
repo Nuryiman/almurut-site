@@ -9,6 +9,28 @@ class LoginView(TemplateView):
     template_name = 'login.html'
 
 
+class MakeUserLoginView(View):
+    def post(self, request, *args, **kwargs):
+        data = request.POST
+        email = data['email']
+        password = data['password']
+
+        user = CustomUser.objects.get(email=email)
+        print("пользователь", user)
+
+        correct = user.check_password(password)
+        print("коррект равен", correct)
+
+        if correct == True:
+            login(request, user)
+            return render(request, "login.html", context={'logged_in': True})
+        else:
+            return render(request, "login.html", context={'logged_in': False})
+
+
+
+
+
 class MakeUserRegistrationView(View):
     def post(self, request, *args, **kwargs):
         data = request.POST
