@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
@@ -20,3 +22,13 @@ class HomeView(TemplateView):
 class FavoritesView(TemplateView):
     template_name = 'favorites.html'
 
+
+class ProductListView(TemplateView):
+    template_name = 'product-list.html'
+
+    def get_context_data(self, **kwargs):
+        context = {
+            'product_list': Product.objects.all(),
+            'now': datetime.now().date()
+        }
+        return context

@@ -1,4 +1,4 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
@@ -28,7 +28,12 @@ class MakeUserLoginView(View):
             return render(request, "login.html", context={'logged_in': False})
 
 
+class MakeUserLogoutView(View):
+    """Вью, чтобы выйти из аккаунта"""
 
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        return render(request, 'login.html')
 
 
 class MakeUserRegistrationView(View):

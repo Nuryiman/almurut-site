@@ -4,7 +4,8 @@
 <body>
     <!--[if lt IE 8]>
 		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-	<![endif]-->
+	    <p>привет {{ request.user.first_name }}</p>
+    <![endif]-->
         <!-- Begin Body Wrapper -->
         <div class="body-wrapper">
             <!-- Begin Header Area -->
@@ -150,11 +151,14 @@
                                             <li><a href="">Shop</a></li>
                                             <li><a href="">FAQ</a></li>
                                             <li><a href="">My account</a></li>
-                                            <li>
-                                                <form action=" " method="POST">
-                                                    <button type="">Выйти</button>
-                                                </form>
-                                            </li>
+                                            {% if request.user.is_authenticated %}
+                                                <li>
+                                                    <form action="{% url 'make-logout-url'%}" method="POST">
+                                                        {% csrf_token %}
+                                                        <button type="submit">Выйти</button>
+                                                    </form>
+                                                </li>
+                                            {% endif %}
                                         </ul>
                                     </nav>
                                 </div>

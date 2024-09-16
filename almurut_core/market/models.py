@@ -35,6 +35,14 @@ class Product(models.Model):
 
     new_expiry_date = models.DateField(verbose_name='Дата истечения отметки Новый')
 
+    def get_price_with_sales(self):
+        """Возвращает цену с учетом скидки"""
+        if self.sales_percent == 0:
+            return self.price
+
+        else:
+            return int((self.price / 100) * (100 - self.sales_percent))
+
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
@@ -50,9 +58,12 @@ class ProductGallery(models.Model):
         verbose_name_plural = 'Галереи товаров'
 
 
-class ProductRating(models.Model):
+class ProductUserRating(models.Model):
     """Моделька для рейтинга продуктов"""
 
-    product = models.OneToOneField(Product, on_delete=models.CASCADE, null=True)
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     rating = models.PositiveSmallIntegerField(validators=[MaxValueValidator(5), MaxValueValidator(1)])
+
+    class Meta:
+        unique_together = ('product', 'user',)
