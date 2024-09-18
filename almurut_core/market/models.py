@@ -43,6 +43,9 @@ class Product(models.Model):
         else:
             return int((self.price / 100) * (100 - self.sales_percent))
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'

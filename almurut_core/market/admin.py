@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from market.models import Product, ProductGallery, ProductCategory
+from market.models import Product, ProductGallery, ProductCategory, ProductUserRating
 
 
 class ProductGalleryInline(admin.TabularInline):
@@ -31,3 +31,8 @@ class ProductAdmin(admin.ModelAdmin):
 class ProductGalleryAdmin(admin.ModelAdmin):
     list_display = ['product', 'image']
     search_fields = ['product__name']
+
+
+@admin.register(ProductUserRating)
+class ProductUserRatingAdmin(admin.ModelAdmin):
+    list_display = ('user', 'product', 'rating',)

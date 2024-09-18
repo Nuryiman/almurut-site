@@ -18,7 +18,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from market.views import HomeView, FavoritesView, ProductListView
+from market.views import HomeView, FavoritesView, ProductListView, ProductDetailView, SendProductFeedbackView
 from users.views import LoginView, UserRegistrationView, MakeUserRegistrationView, MakeUserLoginView, MakeUserLogoutView
 
 urlpatterns = [
@@ -30,7 +30,9 @@ urlpatterns = [
     path('make-logout/', MakeUserLogoutView.as_view(), name='make-logout-url'),
     path('registration/', UserRegistrationView.as_view(), name='registration-url'),
     path('make-registration/', MakeUserRegistrationView.as_view(), name='make-registration-url'),
-    path('product-list/', ProductListView.as_view(), name='product-list-url')
+    path('products/', ProductListView.as_view(), name='product-list-url'),
+    path('products/<int:pk>/', ProductDetailView.as_view(), name='product-detail-url'),
+    path('products/<int:pk>/send-feedback/', SendProductFeedbackView.as_view(), name='send-feedback-url')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
