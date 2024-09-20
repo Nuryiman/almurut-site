@@ -58,6 +58,7 @@ class SendProductFeedbackView(View):
     def post(self, request, *args, **kwargs):
         data = request.POST
         rating_value = data['rating_value']
+        comment = data['comment']
 
         product = Product.objects.get(id=kwargs['pk'])
         user = request.user
@@ -66,7 +67,8 @@ class SendProductFeedbackView(View):
             ProductUserRating.objects.create(
                 product=product,
                 user=user,
-                rating=rating_value
+                rating=rating_value,
+                comment=comment
             )
 
             return redirect(f"products/{product.id}/")
