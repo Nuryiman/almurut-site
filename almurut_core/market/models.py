@@ -66,6 +66,7 @@ class ProductUserRating(models.Model):
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    phone = models.PositiveSmallIntegerField(null=True)
     rating = models.PositiveSmallIntegerField(validators=[MaxValueValidator(5), MaxValueValidator(1)])
     comment = models.TextField(null=True)
 

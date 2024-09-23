@@ -43,11 +43,19 @@ class ProductDetailView(TemplateView):
 
     def get_context_data(self, **kwargs):
         try:
-            product_pk = Product.objects.get(id=kwargs['pk'])
+            product = Product.objects.get(id=kwargs['pk'])
         except Product.DoesNotExist:
             raise Http404
+        user = self.request.user
+        try:
+            my_rating = ProductUserRating.objects.get(user=user, product=product)
+            rating = my_rating.rating
+        except ProductUserRating.DoesNotExist:
+            rating = 0
+
         context = {
-            'product': product_pk
+            'product': product,
+            'rating': rating
         }
         return context
 
@@ -63,14 +71,20 @@ class SendProductFeedbackView(View):
         product = Product.objects.get(id=kwargs['pk'])
         user = request.user
         if user.is_authenticated:
+            try:
+                product_rating = ProductUserRating.objects.get(user=user, product=product)
+            except ProductUserRating.DoesNotExist:
+                ProductUserRating.objects.create(
+                    product=product,
+                    user=user,
+                    rating=rating_value,
+                    comment=comment
+                )
 
-            ProductUserRating.objects.create(
-                product=product,
-                user=user,
-                rating=rating_value,
-                comment=comment
-            )
+                return redirect('product-detail-url', pk=product.id)
 
-            return redirect(f"products/{product.id}/")
+            product_rating.rating = rating_value
+            product_rating.save()
+            return redirect('product-detail-url', pk=product.id)
         else:
             return redirect("/login/")

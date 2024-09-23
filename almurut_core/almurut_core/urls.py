@@ -33,8 +33,8 @@ urlpatterns = [
     path('make-registration/', MakeUserRegistrationView.as_view(), name='make-registration-url'),
     path('faq/', FaqView.as_view(), name='faq-url'),
     path('products/', ProductListView.as_view(), name='product-list-url'),
-    path('products/<int:pk>/', ProductDetailView.as_view(), name='product-detail-url'),
-    path('products/<int:pk>/send-feedback/', SendProductFeedbackView.as_view(), name='send-feedback-url'),
+    path('product/<int:pk>/', ProductDetailView.as_view(), name='product-detail-url'),
+    path('product/<int:pk>/send-feedback/', SendProductFeedbackView.as_view(), name='send-feedback-url'),
     path('favorites/', FavoritesView.as_view(), name='favorites-url')
 ]
 
