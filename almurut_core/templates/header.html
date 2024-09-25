@@ -25,13 +25,14 @@
                                             <div class="ht-language-trigger"><span>English</span></div>
                                             <div class="language ht-language">
                                                 <ul class="ht-setting-list">
-                                                    <li class="active"><a href="#"><img src="images/menu/flag-icon/1.jpg" alt="">English</a></li>
-                                                    <li><a href="#"><img src="images/menu/flag-icon/2.jpg" alt="">Français</a></li>
+                                                    <li class="active"><a href="#"><img src="{% static 'images/menu/flag-icon/1.jpg' %}" alt="">English</a></li>
+                                                    <li><a href="#"><img src="{% static 'images/menu/flag-icon/2.jpg' %}" alt="">Français</a></li>
                                                 </ul>
                                             </div>
                                         </li>
                                         <!-- Language Area End Here -->
                                     </ul>
+
                                 </div>
                             </div>
                             <!-- Header Top Right Area End Here -->
@@ -142,6 +143,14 @@
                                             <li><a href="">Shop</a></li>
                                             <li><a href="">FAQ</a></li>
                                             <li><a href="">My account</a></li>
+                                            {% if request.user.is_authenticated %}
+                                                <li>
+                                                    <form action="{% url 'make-logout-url' %}" method="POST">
+                                                        {% csrf_token %}
+                                                        <button type="submit">Выйти</button>
+                                                    </form>
+                                                </li>
+                                            {% endif %}
                                         </ul>
                                     </nav>
                                 </div>

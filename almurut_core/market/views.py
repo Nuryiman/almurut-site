@@ -29,10 +29,11 @@ class FavoritesView(TemplateView):
 class ProductListView(ListView):
     template_name = 'product-list.html'
     model = Product
+    paginate_by = 3
+    context_object_name = 'product_list'
 
     def get_context_data(self, **kwargs):
         context = {
-            'product_list': Product.objects.all(),
             'now': datetime.now().date()
         }
         return context
@@ -58,6 +59,7 @@ class SendProductFeedbackView(View):
     def post(self, request, *args, **kwargs):
         data = request.POST
         rating_value = data['rating_value']
+        comment = data['comment']
 
         product = Product.objects.get(id=kwargs['pk'])
         user = request.user
@@ -66,9 +68,10 @@ class SendProductFeedbackView(View):
             ProductUserRating.objects.create(
                 product=product,
                 user=user,
-                rating=rating_value
+                rating=rating_value,
+                comment=comment
             )
 
-            return redirect(f"products/{product.id}/")
+            return redirect(f"/product/{product.id}/")
         else:
             return redirect("/login/")
