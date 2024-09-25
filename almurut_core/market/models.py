@@ -53,7 +53,7 @@ class Product(models.Model):
 
 class ProductGallery(models.Model):
     """Моделька для галереи товаров"""
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар', related_name='images')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар')
     image = models.ImageField(verbose_name='Изображение', upload_to='product_gallery')
 
     class Meta:
@@ -66,9 +66,9 @@ class ProductUserRating(models.Model):
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    phone = models.PositiveSmallIntegerField(null=True)
     rating = models.PositiveSmallIntegerField(validators=[MaxValueValidator(5), MaxValueValidator(1)])
-    comment = models.TextField(null=True, verbose_name="Обзор")
-
+    comment = models.TextField(null=True)
 
     class Meta:
         unique_together = ('product', 'user',)

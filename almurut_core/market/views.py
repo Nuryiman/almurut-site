@@ -29,11 +29,10 @@ class FavoritesView(TemplateView):
 class ProductListView(ListView):
     template_name = 'product-list.html'
     model = Product
-    paginate_by = 3
-    context_object_name = 'product_list'
 
     def get_context_data(self, **kwargs):
         context = {
+            'product_list': Product.objects.all(),
             'now': datetime.now().date()
         }
         return context
@@ -43,12 +42,22 @@ class ProductDetailView(TemplateView):
     template_name = 'product-detail.html'
 
     def get_context_data(self, **kwargs):
+        six_range = [1, 2, 3, 4, 5]
         try:
-            product_pk = Product.objects.get(id=kwargs['pk'])
+            product = Product.objects.get(id=kwargs['pk'])
         except Product.DoesNotExist:
             raise Http404
+        user = self.request.user
+        try:
+            my_rating = ProductUserRating.objects.get(user=user, product=product)
+            my_rating = my_rating.rating
+        except ProductUserRating.DoesNotExist:
+            my_rating = 0
+
         context = {
-            'product': product_pk
+            'product': product,
+            'my_rating': my_rating,
+            'range': six_range
         }
         return context
 
@@ -64,14 +73,20 @@ class SendProductFeedbackView(View):
         product = Product.objects.get(id=kwargs['pk'])
         user = request.user
         if user.is_authenticated:
+            try:
+                product_rating = ProductUserRating.objects.get(user=user, product=product)
+            except ProductUserRating.DoesNotExist:
+                ProductUserRating.objects.create(
+                    product=product,
+                    user=user,
+                    rating=rating_value,
+                    comment=comment
+                )
 
-            ProductUserRating.objects.create(
-                product=product,
-                user=user,
-                rating=rating_value,
-                comment=comment
-            )
+                return redirect('product-detail-url', pk=product.id)
 
-            return redirect(f"/product/{product.id}/")
+            product_rating.rating = rating_value
+            product_rating.save()
+            return redirect('product-detail-url', pk=product.id)
         else:
             return redirect("/login/")

@@ -67,7 +67,7 @@
                                     <ul class="hm-menu">
                                         <!-- Begin Header Middle Wishlist Area -->
                                         <li class="hm-wishlist">
-                                            <a href="favorites.html">
+                                            <a href="{% url 'favorites-url' %}">
                                                 <span class="cart-item-count wishlist-item-count">0</span>
                                                 <i class="fa fa-heart-o"></i>
                                             </a>
@@ -139,13 +139,14 @@
                                 <div class="hb-menu">
                                     <nav>
                                         <ul>
-                                            <li><a href="">Home</a></li>
-                                            <li><a href="">Shop</a></li>
-                                            <li><a href="">FAQ</a></li>
+                                            <li><a href="{% url 'home-url' %}">Home</a></li>
+                                            <li><a href="{% url 'product-list-url' %}">Shop</a></li>
+                                            <li><a href="{% url 'faq-url' %}">FAQ</a></li>
                                             <li><a href="">My account</a></li>
                                             {% if request.user.is_authenticated %}
                                                 <li>
                                                     <form action="{% url 'make-logout-url' %}" method="POST">
+                                                    <form action="{% url 'make-logout-url'%}" method="POST">
                                                         {% csrf_token %}
                                                         <button type="submit">Выйти</button>
                                                     </form>

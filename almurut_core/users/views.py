@@ -1,5 +1,5 @@
 from django.contrib.auth import login, logout
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView
 from users.models import CustomUser
@@ -21,9 +21,9 @@ class MakeUserLoginView(View):
         correct = user.check_password(password)
         print("коррект равен", correct)
 
-        if correct == True:
+        if correct:
             login(request, user)
-            return render(request, "login.html", context={'logged_in': True})
+            return redirect('/products/')
         else:
             return render(request, "login.html", context={'logged_in': False})
 
@@ -59,3 +59,7 @@ class MakeUserRegistrationView(View):
 
 class UserRegistrationView(TemplateView):
     template_name = 'register.html'
+
+
+class FaqView(TemplateView):
+    template_name = 'faq.html'

@@ -146,10 +146,18 @@
                                 <div class="hb-menu">
                                     <nav>
                                         <ul>
-                                            <li><a href="">Home</a></li>
-                                            <li><a href="">Shop</a></li>
-                                            <li><a href="">FAQ</a></li>
+                                            <li><a href="{% url 'home-url' %}">Home</a></li>
+                                            <li><a href="{% url 'product-list-url' %}">Shop</a></li>
+                                            <li><a href="{% url 'faq-url' %}">FAQ</a></li>
                                             <li><a href="">My account</a></li>
+                                            {% if request.user.is_authenticated %}
+                                                <li>
+                                                    <form action="{% url 'make-logout-url'%}" method="POST">
+                                                        {% csrf_token %}
+                                                        <button type="submit">Выйти</button>
+                                                    </form>
+                                                </li>
+                                            {% endif %}
                                         </ul>
                                     </nav>
                                 </div>
@@ -299,13 +307,16 @@
                             <div class="product-reviews">
                                 <div class="product-details-comment-block">
                                     <div class="comment-review">
+                                        <h3>{{ rating }}</h3>
                                         <span>Grade</span>
                                         <ul class="rating">
-                                            <li><i class="fa fa-star-o"></i></li>
-                                            <li><i class="fa fa-star-o"></i></li>
-                                            <li><i class="fa fa-star-o"></i></li>
-                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                            <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                            {% for i in range %}
+                                                {% if i <= my_rating %}
+                                                    <li><i class="fa fa-star-o"></i></li>
+                                                {% else %}
+                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
+                                                {% endif %}
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                     <div class="comment-author-infos pt-25">
