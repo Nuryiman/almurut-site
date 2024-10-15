@@ -5,6 +5,7 @@ from users.managers import CustomUserManager
 
 
 class CustomUser(AbstractUser):
+    from market.models import Product
     """Модель для пользователей"""
 
     username = None
@@ -19,6 +20,8 @@ class CustomUser(AbstractUser):
     birth_day = models.DateField(
         null=True,
         blank=True)
+
+    user_favorite_product = models.ManyToManyField(Product, related_name="favorite_products")
 
     objects = CustomUserManager()
 

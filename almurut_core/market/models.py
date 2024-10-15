@@ -1,6 +1,6 @@
 from django.core.validators import MaxValueValidator
 from django.db import models
-from users.models import CustomUser
+
 
 
 class ProductCategory(models.Model):
@@ -39,9 +39,7 @@ class Product(models.Model):
         """Возвращает цену с учетом скидки"""
         if self.sales_percent == 0:
             return self.price
-
-        else:
-            return int((self.price / 100) * (100 - self.sales_percent))
+        return int((self.price / 100) * (100 - self.sales_percent))
 
     def __str__(self):
         return self.name
@@ -53,7 +51,7 @@ class Product(models.Model):
 
 class ProductGallery(models.Model):
     """Моделька для галереи товаров"""
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар', related_name='product_gallery')
     image = models.ImageField(verbose_name='Изображение', upload_to='product_gallery')
 
     class Meta:
@@ -62,6 +60,7 @@ class ProductGallery(models.Model):
 
 
 class ProductUserRating(models.Model):
+    from users.models import CustomUser
     """Моделька для рейтинга продуктов"""
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
@@ -72,3 +71,15 @@ class ProductUserRating(models.Model):
 
     class Meta:
         unique_together = ('product', 'user',)
+
+
+# class UserFavoriteProduct(models.Model):
+#     """Моделька для избранных продуктов пользователей"""
+#     from users.models import CustomUser
+#     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='Пользователь')
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар')
+#
+#     class Meta:
+#         verbose_name = 'Избранный продукт'
+#         verbose_name_plural = 'Избранные продукты'
+#         unique_together = ('user', 'product',)

@@ -18,7 +18,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from market.views import HomeView, FavoritesView, ProductListView, ProductDetailView, SendProductFeedbackView
+from market.views import HomeView, FavoritesView, ProductListView, ProductDetailView, SendProductFeedbackView, \
+    AddFavoriteView, RemoveFavoriteView
 from users.views import LoginView, UserRegistrationView, MakeUserRegistrationView, MakeUserLoginView, \
     MakeUserLogoutView, FaqView
 
@@ -26,7 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', HomeView.as_view(), name='home-url'),
     path('favorites/', FavoritesView.as_view()),
-    path('login/', LoginView.as_view(), name='login-view'),
+    path('login/', LoginView.as_view(), name='login-url'),
     path('make-login/', MakeUserLoginView.as_view(), name='make-login-url'),
     path('make-logout/', MakeUserLogoutView.as_view(), name='make-logout-url'),
     path('registration/', UserRegistrationView.as_view(), name='registration-url'),
@@ -35,7 +36,10 @@ urlpatterns = [
     path('products/', ProductListView.as_view(), name='product-list-url'),
     path('product/<int:pk>/', ProductDetailView.as_view(), name='product-detail-url'),
     path('product/<int:pk>/send-feedback/', SendProductFeedbackView.as_view(), name='send-feedback-url'),
-    path('favorites/', FavoritesView.as_view(), name='favorites-url')
+    path('favorites/', FavoritesView.as_view(), name='favorites-url'),
+    path('add-favorite/<int:pk>/', AddFavoriteView.as_view(), name='add-favorite-url'),
+    path('remove-favorite/<int:pk>/', RemoveFavoriteView.as_view(), name='remove-favorite-url')
 ]
+
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
